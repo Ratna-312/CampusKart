@@ -1,5 +1,5 @@
 """
-CampusKart - Share via localhost.run (free, no signup)
+UniKart - Share via localhost.run (free, no signup)
 """
 import subprocess
 import threading
@@ -24,7 +24,7 @@ thread.start()
 
 print("")
 print("=" * 56)
-print("  CampusKart - Creating shareable link...")
+print("  UniKart - Creating shareable link...")
 print("=" * 56)
 print("")
 

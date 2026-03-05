@@ -1,55 +1,55 @@
 /* ============================================================
-   CampusKart — Application Logic
+   UniKart — Application Logic
    Full SPA with mock data, cart management, search, admin panel
    ============================================================ */
 
 // ==================== MOCK DATA ====================
 
 const CATEGORIES = [
-  { id: 'pens',        name: 'Pens',              icon: '🖊️' },
-  { id: 'notebooks',   name: 'Notebooks',         icon: '📓' },
-  { id: 'lab-records', name: 'Lab Records',       icon: '🔬' },
-  { id: 'printouts',   name: 'Printouts',         icon: '🖨️' },
-  { id: 'binding',     name: 'Binding',           icon: '📎' },
-  { id: 'exam-pads',   name: 'Exam Pads',         icon: '📝' },
-  { id: 'calculators', name: 'Calculators',       icon: '🔢' },
-  { id: 'art',         name: 'Art Supplies',      icon: '🎨' },
+  { id: 'pens', name: 'Pens', icon: '🖊️' },
+  { id: 'notebooks', name: 'Notebooks', icon: '📓' },
+  { id: 'lab-records', name: 'Lab Records', icon: '🔬' },
+  { id: 'printouts', name: 'Printouts', icon: '🖨️' },
+  { id: 'binding', name: 'Binding', icon: '📎' },
+  { id: 'exam-pads', name: 'Exam Pads', icon: '📝' },
+  { id: 'calculators', name: 'Calculators', icon: '🔢' },
+  { id: 'art', name: 'Art Supplies', icon: '🎨' },
 ];
 
 let PRODUCTS = [
-  { id: 1,  name: 'Pilot V5 Pen (Blue)',       desc: 'Smooth 0.5mm liquid ink',               price: 45,   category: 'pens',        emoji: '🖊️', stock: 120, featured: true  },
-  { id: 2,  name: 'Pilot V5 Pen (Black)',      desc: 'Smooth 0.5mm liquid ink',               price: 45,   category: 'pens',        emoji: '🖊️', stock: 95,  featured: false },
-  { id: 3,  name: 'Cello Gripper Pack (5)',     desc: 'Comfortable grip, blue ink',            price: 60,   category: 'pens',        emoji: '✒️',  stock: 80,  featured: false },
-  { id: 4,  name: 'Reynolds 045 (10-pack)',     desc: 'Classic ballpoint, fine tip',            price: 90,   category: 'pens',        emoji: '🖋️', stock: 65,  featured: true  },
-  { id: 5,  name: 'Highlighter Set (6 colors)',desc: 'Neon markers for notes',                price: 120,  category: 'pens',        emoji: '🌈', stock: 40,  featured: false },
-  { id: 6,  name: 'Classmate Notebook (200pg)', desc: 'Single line, spiral bound',             price: 75,   category: 'notebooks',   emoji: '📓', stock: 200, featured: true  },
-  { id: 7,  name: 'Classmate Notebook (100pg)', desc: 'Single line, side stapled',             price: 40,   category: 'notebooks',   emoji: '📗', stock: 250, featured: false },
-  { id: 8,  name: 'A4 Graph Notebook',          desc: '1cm grid, 100 pages',                   price: 55,   category: 'notebooks',   emoji: '📐', stock: 90,  featured: false },
-  { id: 9,  name: 'Long Notebook (400pg)',       desc: 'Register-style, ruled',                 price: 120,  category: 'notebooks',   emoji: '📕', stock: 60,  featured: false },
-  { id: 10, name: 'Physics Lab Record',          desc: '100 pages, interleaved, hard bound',   price: 85,   category: 'lab-records', emoji: '🔬', stock: 150, featured: true  },
-  { id: 11, name: 'Chemistry Lab Record',        desc: '100 pages, interleaved, hard bound',   price: 85,   category: 'lab-records', emoji: '⚗️', stock: 140, featured: false },
-  { id: 12, name: 'CSE Lab Record',              desc: '100 pages, plain, hard bound',         price: 80,   category: 'lab-records', emoji: '💻', stock: 130, featured: false },
-  { id: 13, name: 'B&W Printout (per page)',     desc: 'A4 single side, quality print',        price: 3,    category: 'printouts',   emoji: '🖨️', stock: 999, featured: false },
-  { id: 14, name: 'Color Printout (per page)',   desc: 'A4 single side, vivid colors',         price: 10,   category: 'printouts',   emoji: '🌈', stock: 999, featured: true  },
-  { id: 15, name: 'Spiral Binding',              desc: 'Plastic spiral, up to 100 pages',      price: 30,   category: 'binding',     emoji: '📎', stock: 500, featured: false },
-  { id: 16, name: 'Hard Binding',                desc: 'Professional hard cover binding',       price: 80,   category: 'binding',     emoji: '📚', stock: 200, featured: false },
-  { id: 17, name: 'Soft Binding (Tape)',          desc: 'Tape binding, up to 50 pages',         price: 20,   category: 'binding',     emoji: '📑', stock: 400, featured: false },
-  { id: 18, name: 'Exam Writing Pad (A4)',        desc: '80 sheets, ruled, top punched',        price: 35,   category: 'exam-pads',   emoji: '📝', stock: 300, featured: true  },
-  { id: 19, name: 'Exam Pad + Supplement (5)',    desc: 'Main + 5 supplements combo',           price: 50,   category: 'exam-pads',   emoji: '📄', stock: 180, featured: false },
-  { id: 20, name: 'Casio FX-991ES Plus',          desc: 'Scientific calculator, 417 functions', price: 1350, category: 'calculators', emoji: '🔢', stock: 25,  featured: true  },
-  { id: 21, name: 'Casio FX-82MS',                desc: 'Basic scientific, 240 functions',      price: 750,  category: 'calculators', emoji: '🧮', stock: 35,  featured: false },
-  { id: 22, name: 'Geometry Box (Camlin)',         desc: 'Complete geometry set',                price: 120,  category: 'art',         emoji: '📏', stock: 50,  featured: false },
-  { id: 23, name: 'Eraser & Sharpener Combo',     desc: 'Faber-Castell, dust-free',             price: 25,   category: 'art',         emoji: '✏️', stock: 200, featured: false },
-  { id: 24, name: 'A3 Drawing Sheet (10-pack)',   desc: 'Cartridge paper, 150 GSM',             price: 60,   category: 'art',         emoji: '🎨', stock: 75,  featured: false },
+  { id: 1, name: 'Pilot V5 Pen (Blue)', desc: 'Smooth 0.5mm liquid ink', price: 45, category: 'pens', emoji: '🖊️', stock: 120, featured: true },
+  { id: 2, name: 'Pilot V5 Pen (Black)', desc: 'Smooth 0.5mm liquid ink', price: 45, category: 'pens', emoji: '🖊️', stock: 95, featured: false },
+  { id: 3, name: 'Cello Gripper Pack (5)', desc: 'Comfortable grip, blue ink', price: 60, category: 'pens', emoji: '✒️', stock: 80, featured: false },
+  { id: 4, name: 'Reynolds 045 (10-pack)', desc: 'Classic ballpoint, fine tip', price: 90, category: 'pens', emoji: '🖋️', stock: 65, featured: true },
+  { id: 5, name: 'Highlighter Set (6 colors)', desc: 'Neon markers for notes', price: 120, category: 'pens', emoji: '🌈', stock: 40, featured: false },
+  { id: 6, name: 'Classmate Notebook (200pg)', desc: 'Single line, spiral bound', price: 75, category: 'notebooks', emoji: '📓', stock: 200, featured: true },
+  { id: 7, name: 'Classmate Notebook (100pg)', desc: 'Single line, side stapled', price: 40, category: 'notebooks', emoji: '📗', stock: 250, featured: false },
+  { id: 8, name: 'A4 Graph Notebook', desc: '1cm grid, 100 pages', price: 55, category: 'notebooks', emoji: '📐', stock: 90, featured: false },
+  { id: 9, name: 'Long Notebook (400pg)', desc: 'Register-style, ruled', price: 120, category: 'notebooks', emoji: '📕', stock: 60, featured: false },
+  { id: 10, name: 'Physics Lab Record', desc: '100 pages, interleaved, hard bound', price: 85, category: 'lab-records', emoji: '🔬', stock: 150, featured: true },
+  { id: 11, name: 'Chemistry Lab Record', desc: '100 pages, interleaved, hard bound', price: 85, category: 'lab-records', emoji: '⚗️', stock: 140, featured: false },
+  { id: 12, name: 'CSE Lab Record', desc: '100 pages, plain, hard bound', price: 80, category: 'lab-records', emoji: '💻', stock: 130, featured: false },
+  { id: 13, name: 'B&W Printout (per page)', desc: 'A4 single side, quality print', price: 3, category: 'printouts', emoji: '🖨️', stock: 999, featured: false },
+  { id: 14, name: 'Color Printout (per page)', desc: 'A4 single side, vivid colors', price: 10, category: 'printouts', emoji: '🌈', stock: 999, featured: true },
+  { id: 15, name: 'Spiral Binding', desc: 'Plastic spiral, up to 100 pages', price: 30, category: 'binding', emoji: '📎', stock: 500, featured: false },
+  { id: 16, name: 'Hard Binding', desc: 'Professional hard cover binding', price: 80, category: 'binding', emoji: '📚', stock: 200, featured: false },
+  { id: 17, name: 'Soft Binding (Tape)', desc: 'Tape binding, up to 50 pages', price: 20, category: 'binding', emoji: '📑', stock: 400, featured: false },
+  { id: 18, name: 'Exam Writing Pad (A4)', desc: '80 sheets, ruled, top punched', price: 35, category: 'exam-pads', emoji: '📝', stock: 300, featured: true },
+  { id: 19, name: 'Exam Pad + Supplement (5)', desc: 'Main + 5 supplements combo', price: 50, category: 'exam-pads', emoji: '📄', stock: 180, featured: false },
+  { id: 20, name: 'Casio FX-991ES Plus', desc: 'Scientific calculator, 417 functions', price: 1350, category: 'calculators', emoji: '🔢', stock: 25, featured: true },
+  { id: 21, name: 'Casio FX-82MS', desc: 'Basic scientific, 240 functions', price: 750, category: 'calculators', emoji: '🧮', stock: 35, featured: false },
+  { id: 22, name: 'Geometry Box (Camlin)', desc: 'Complete geometry set', price: 120, category: 'art', emoji: '📏', stock: 50, featured: false },
+  { id: 23, name: 'Eraser & Sharpener Combo', desc: 'Faber-Castell, dust-free', price: 25, category: 'art', emoji: '✏️', stock: 200, featured: false },
+  { id: 24, name: 'A3 Drawing Sheet (10-pack)', desc: 'Cartridge paper, 150 GSM', price: 60, category: 'art', emoji: '🎨', stock: 75, featured: false },
 ];
 
 const DELIVERY_LOCATIONS = [
-  { id: 'hostel-a',  name: '🏢 Hostel Block A' },
-  { id: 'hostel-b',  name: '🏢 Hostel Block B' },
-  { id: 'hostel-c',  name: '🏢 Hostel Block C' },
-  { id: 'library',   name: '📚 Library' },
-  { id: 'academic',  name: '🎓 Academic Block' },
-  { id: 'canteen',   name: '🍔 Canteen Area' },
+  { id: 'hostel-a', name: '🏢 Hostel Block A' },
+  { id: 'hostel-b', name: '🏢 Hostel Block B' },
+  { id: 'hostel-c', name: '🏢 Hostel Block C' },
+  { id: 'library', name: '📚 Library' },
+  { id: 'academic', name: '🎓 Academic Block' },
+  { id: 'canteen', name: '🍔 Canteen Area' },
   { id: 'main-gate', name: '🚪 Main Gate' },
 ];
 
@@ -247,10 +247,10 @@ function renderShopProducts() {
 
   // Sort
   switch (sortBy) {
-    case 'price-low':  filtered.sort((a, b) => a.price - b.price); break;
+    case 'price-low': filtered.sort((a, b) => a.price - b.price); break;
     case 'price-high': filtered.sort((a, b) => b.price - a.price); break;
-    case 'name':       filtered.sort((a, b) => a.name.localeCompare(b.name)); break;
-    default:           filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)); break;
+    case 'name': filtered.sort((a, b) => a.name.localeCompare(b.name)); break;
+    default: filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)); break;
   }
 
   document.getElementById('resultsCount').textContent = `${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
@@ -473,7 +473,7 @@ function confirmPayment() {
   ORDERS.unshift(order);
 
   // Save last purchase for reorder
-  localStorage.setItem('campuskart_last_order', JSON.stringify(cart));
+  localStorage.setItem('unikart_last_order', JSON.stringify(cart));
 
   // Clear cart
   cart = [];
@@ -495,13 +495,13 @@ function confirmPayment() {
 
 // ==================== REORDER ====================
 function checkReorderVisibility() {
-  const lastOrder = localStorage.getItem('campuskart_last_order');
+  const lastOrder = localStorage.getItem('unikart_last_order');
   const reorderSection = document.getElementById('reorderSection');
   reorderSection.style.display = lastOrder ? 'block' : 'none';
 }
 
 function reorderLastPurchase() {
-  const lastOrder = localStorage.getItem('campuskart_last_order');
+  const lastOrder = localStorage.getItem('unikart_last_order');
   if (!lastOrder) {
     showToast('No previous order found', 'error');
     return;
@@ -553,7 +553,7 @@ function trackOrder() {
 function renderTimeline(status) {
   const steps = ['placed', 'packing', 'delivering', 'delivered'];
   const labels = ['Order Placed', 'Packing', 'Out for Delivery', 'Delivered'];
-  const icons  = ['📋', '📦', '🛵', '✅'];
+  const icons = ['📋', '📦', '🛵', '✅'];
   const currentIdx = steps.indexOf(status);
 
   const timeline = document.getElementById('trackTimeline');
@@ -595,10 +595,10 @@ function renderAdminStats() {
   const lowStock = PRODUCTS.filter(p => p.stock < 30).length;
 
   const stats = [
-    { label: 'Orders Today',    value: today,              change: '+12%', positive: true },
-    { label: 'Revenue',         value: `₹${revenue.toLocaleString()}`, change: '+8%',  positive: true },
-    { label: 'Pending Orders',  value: pending,            change: '',     positive: true },
-    { label: 'Low Stock Items', value: lowStock,           change: '',     positive: false },
+    { label: 'Orders Today', value: today, change: '+12%', positive: true },
+    { label: 'Revenue', value: `₹${revenue.toLocaleString()}`, change: '+8%', positive: true },
+    { label: 'Pending Orders', value: pending, change: '', positive: true },
+    { label: 'Low Stock Items', value: lowStock, change: '', positive: false },
   ];
 
   document.getElementById('adminStats').innerHTML = stats.map(s => `
@@ -723,11 +723,11 @@ function showToast(message, type = '') {
 
 // ==================== LOCAL STORAGE ====================
 function saveCartToStorage() {
-  localStorage.setItem('campuskart_cart', JSON.stringify(cart));
+  localStorage.setItem('unikart_cart', JSON.stringify(cart));
 }
 
 function loadCartFromStorage() {
-  const saved = localStorage.getItem('campuskart_cart');
+  const saved = localStorage.getItem('unikart_cart');
   if (saved) {
     try { cart = JSON.parse(saved); } catch { cart = []; }
   }

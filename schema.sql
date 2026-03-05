@@ -1,5 +1,5 @@
 -- ============================================================
--- CampusKart — PostgreSQL Database Schema
+-- UniKart — PostgreSQL Database Schema
 -- ============================================================
 
 -- Enable UUID extension
