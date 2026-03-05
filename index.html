@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CampusKart — Your college campus stationery shop. Order pens, notebooks, lab records, printouts and more. Delivered to your hostel in 30 minutes." />
+  <meta name="theme-color" content="#1B2A4A" />
+  <title>CampusKart — Campus Stationery, Delivered Fast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ========== TOP NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo" onclick="navigateTo('home')">
+        <span class="logo-icon">📦</span>
+        <span class="logo-text">Campus<span class="logo-accent">Kart</span></span>
+      </a>
+      <div class="nav-search-wrap" id="navSearchWrap">
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" class="search-input" id="navSearchInput" placeholder="Search pens, notebooks..." autocomplete="off" />
+          <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-btn cart-btn" id="navCartBtn" onclick="navigateTo('cart')" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <button class="nav-btn admin-btn" onclick="navigateTo('admin')" aria-label="Admin Panel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main-content" id="mainContent">
+
+    <!-- ===== HOME PAGE ===== -->
+    <section class="page page-home active" id="page-home">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-bg-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+        </div>
+        <div class="hero-content">
+          <div class="delivery-badge">
+            <span class="badge-pulse"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            <span>Delivered in 30–45 mins</span>
+          </div>
+          <h1 class="hero-title">Your Campus<br/><span class="title-accent">Stationery Shop</span></h1>
+          <p class="hero-subtitle">Pens, notebooks, lab records, printouts & more — delivered right to your hostel door.</p>
+          <button class="btn btn-primary btn-hero" onclick="navigateTo('shop')">
+            Order Now — Get it in 30 mins
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Reorder -->
+      <div class="section reorder-section" id="reorderSection">
+        <button class="reorder-btn" id="reorderBtn" onclick="reorderLastPurchase()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="23,4 23,10 17,10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          <span>Reorder Last Purchase</span>
+        </button>
+      </div>
+
+      <!-- Categories -->
+      <div class="section">
+        <h2 class="section-title">Browse Categories</h2>
+        <div class="category-grid" id="categoryGrid"></div>
+      </div>
+
+      <!-- Featured products -->
+      <div class="section">
+        <div class="section-header">
+          <h2 class="section-title">Popular Items</h2>
+          <button class="btn btn-text" onclick="navigateTo('shop')">View All →</button>
+        </div>
+        <div class="product-grid" id="featuredProducts"></div>
+      </div>
+    </section>
+
+    <!-- ===== SHOP PAGE ===== -->
+    <section class="page page-shop" id="page-shop">
+      <div class="shop-header">
+        <h1 class="page-title">Shop</h1>
+        <div class="shop-search-mobile">
+          <div class="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" class="search-input" id="shopSearchInput" placeholder="Search products..." autocomplete="off" />
+          </div>
+        </div>
+      </div>
+      <div class="filter-chips" id="filterChips"></div>
+      <div class="sort-bar">
+        <span class="results-count" id="resultsCount">0 products</span>
+        <select class="sort-select" id="sortSelect" onchange="renderShopProducts()">
+          <option value="popular">Popular</option>
+          <option value="price-low">Price: Low → High</option>
+          <option value="price-high">Price: High → Low</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+      <div class="product-grid" id="shopProducts"></div>
+    </section>
+
+    <!-- ===== CART PAGE ===== -->
+    <section class="page page-cart" id="page-cart">
+      <h1 class="page-title">Your Cart</h1>
+      <div class="cart-layout">
+        <div class="cart-items" id="cartItems">
+          <!-- Rendered dynamically -->
+        </div>
+        <div class="cart-sidebar">
+          <div class="delivery-selector">
+            <h3 class="sidebar-title">📍 Delivery Location</h3>
+            <div class="location-options" id="locationOptions"></div>
+          </div>
+          <div class="order-summary">
+            <h3 class="sidebar-title">Order Summary</h3>
+            <div class="summary-row"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+            <div class="summary-row"><span>Delivery Fee</span><span id="cartDeliveryFee">₹10</span></div>
+            <div class="summary-row summary-total"><span>Total</span><span id="cartTotal">₹10</span></div>
+            <button class="btn btn-primary btn-pay" id="payBtn" onclick="initiatePayment()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              Pay with Razorpay / UPI
+            </button>
+            <div class="payment-methods">
+              <span class="pm-label">We accept</span>
+              <div class="pm-icons">
+                <span class="pm-tag">UPI</span>
+                <span class="pm-tag">Cards</span>
+                <span class="pm-tag">Wallets</span>
+                <span class="pm-tag">Net Banking</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cart-empty" id="cartEmpty" style="display:none;">
+        <div class="empty-icon">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p>Add some items from the shop to get started!</p>
+        <button class="btn btn-primary" onclick="navigateTo('shop')">Browse Shop</button>
+      </div>
+    </section>
+
+    <!-- ===== TRACK ORDER PAGE ===== -->
+    <section class="page page-track" id="page-track">
+      <h1 class="page-title">Track Your Order</h1>
+      <div class="track-search">
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" class="search-input" id="trackInput" placeholder="Enter Order ID (e.g. ORD-1001)" />
+        </div>
+        <button class="btn btn-primary" onclick="trackOrder()">Track</button>
+      </div>
+      <div class="track-result" id="trackResult" style="display:none;">
+        <div class="track-card">
+          <div class="track-header">
+            <div>
+              <h3 class="track-order-id" id="trackOrderId">ORD-1001</h3>
+              <p class="track-date" id="trackDate">Placed on Mar 3, 2026</p>
+            </div>
+            <span class="status-badge" id="trackStatusBadge">Placed</span>
+          </div>
+          <div class="track-timeline" id="trackTimeline"></div>
+          <div class="track-details">
+            <div class="track-detail-row">
+              <span class="detail-label">Delivery To</span>
+              <span class="detail-value" id="trackLocation">Hostel Block A</span>
+            </div>
+            <div class="track-detail-row">
+              <span class="detail-label">Items</span>
+              <span class="detail-value" id="trackItems">3 items</span>
+            </div>
+            <div class="track-detail-row">
+              <span class="detail-label">Total</span>
+              <span class="detail-value detail-total" id="trackTotal">₹245</span>
+            </div>
+            <div class="track-detail-row">
+              <span class="detail-label">Est. Delivery</span>
+              <span class="detail-value" id="trackETA">~30 mins</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Recent orders -->
+      <div class="section" id="recentOrdersSection">
+        <h2 class="section-title">Recent Orders</h2>
+        <div class="recent-orders" id="recentOrders"></div>
+      </div>
+    </section>
+
+    <!-- ===== ADMIN PAGE ===== -->
+    <section class="page page-admin" id="page-admin">
+      <h1 class="page-title">Admin Panel</h1>
+      <!-- Stats -->
+      <div class="admin-stats" id="adminStats"></div>
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="orders" onclick="switchAdminTab('orders')">Orders</button>
+        <button class="admin-tab" data-tab="inventory" onclick="switchAdminTab('inventory')">Inventory</button>
+        <button class="admin-tab" data-tab="add-product" onclick="switchAdminTab('add-product')">Add Product</button>
+      </div>
+      <!-- Orders tab -->
+      <div class="admin-panel active" id="admin-orders">
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="adminOrdersTable">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminOrdersBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Inventory tab -->
+      <div class="admin-panel" id="admin-inventory">
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="adminInventoryTable">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminInventoryBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Add Product tab -->
+      <div class="admin-panel" id="admin-add-product">
+        <form class="add-product-form" id="addProductForm" onsubmit="addNewProduct(event)">
+          <div class="form-group">
+            <label for="newProductName">Product Name</label>
+            <input type="text" id="newProductName" required placeholder="e.g. Pilot V5 Pen" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newProductPrice">Price (₹)</label>
+              <input type="number" id="newProductPrice" required min="1" placeholder="25" />
+            </div>
+            <div class="form-group">
+              <label for="newProductStock">Stock</label>
+              <input type="number" id="newProductStock" required min="0" placeholder="100" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="newProductCategory">Category</label>
+            <select id="newProductCategory" required></select>
+          </div>
+          <div class="form-group">
+            <label for="newProductDesc">Description</label>
+            <textarea id="newProductDesc" rows="3" placeholder="Short description..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="newProductEmoji">Emoji Icon</label>
+            <input type="text" id="newProductEmoji" placeholder="🖊️" maxlength="4" />
+          </div>
+          <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== BOTTOM NAV (Mobile) ========== -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bnav-btn active" data-page="home" onclick="navigateTo('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="bnav-btn" data-page="shop" onclick="navigateTo('shop')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span>Shop</span>
+    </button>
+    <button class="bnav-btn" data-page="cart" onclick="navigateTo('cart')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+      <span>Cart</span>
+    </button>
+    <button class="bnav-btn" data-page="track" onclick="navigateTo('track')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Track</span>
+    </button>
+    <button class="bnav-btn" data-page="admin" onclick="navigateTo('admin')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span>Admin</span>
+    </button>
+  </nav>
+
+  <!-- ========== TOAST ========== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ========== PAYMENT MODAL ========== -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Payment</h3>
+        <button class="modal-close" onclick="closePaymentModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="payment-option" onclick="selectPaymentMethod('upi')">
+          <span class="po-icon">📱</span>
+          <div class="po-info">
+            <strong>UPI</strong>
+            <span>Google Pay, PhonePe, Paytm</span>
+          </div>
+          <input type="radio" name="payMethod" value="upi" checked />
+        </div>
+        <div class="payment-option" onclick="selectPaymentMethod('card')">
+          <span class="po-icon">💳</span>
+          <div class="po-info">
+            <strong>Credit / Debit Card</strong>
+            <span>Visa, Mastercard, RuPay</span>
+          </div>
+          <input type="radio" name="payMethod" value="card" />
+        </div>
+        <div class="payment-option" onclick="selectPaymentMethod('wallet')">
+          <span class="po-icon">👛</span>
+          <div class="po-info">
+            <strong>Wallet</strong>
+            <span>Paytm, Amazon Pay</span>
+          </div>
+          <input type="radio" name="payMethod" value="wallet" />
+        </div>
+        <div class="razorpay-branding">
+          <span>Secured by</span>
+          <strong>Razorpay</strong>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2DD284" stroke-width="2" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <button class="btn btn-primary btn-pay-confirm" id="confirmPayBtn" onclick="confirmPayment()">
+          Pay <span id="modalPayAmount">₹0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
